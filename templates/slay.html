@@ -109,12 +109,73 @@
             display: none;
         }
 
-        @media (max-width: 600px) {
-            .settings {
-                flex-direction: column;
-                align-items: center;
-            }
-        }
+@media (max-width: 600px) {
+    .container {
+        width: 95%;
+        padding: 15px 0;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    .description {
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+
+    .settings {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .field {
+        width: 100%;
+    }
+
+    .field input {
+        width: 100%;
+    }
+
+    .settings button {
+        width: 100%;
+    }
+
+    .matrix {
+        width: 100%;
+        overflow-x: auto;
+        justify-content: start;
+        padding: 5px;
+        margin: 20px 0;
+    }
+
+    .matrix input {
+        width: 55px;
+        padding: 10px 5px;
+        font-size: 14px;
+    }
+
+    #matrixForm > button {
+        width: 100%;
+    }
+
+    .result {
+        margin-top: 20px;
+        padding: 15px;
+    }
+
+    .result h2 {
+        font-size: 20px;
+    }
+
+    .result pre {
+        font-size: 13px;
+        line-height: 1.5;
+        overflow-x: auto;
+    }
+}
         .result {
     margin-top: 30px;
     padding: 25px;
@@ -152,7 +213,7 @@
 
             <div class="field">
                 <label for="cols">Столбцы</label>
-                <input id="cols" type="number" min="1" value="3">
+                <input id="cols" type="number" min="1" value="6">
             </div>
 
             <div class="field">
@@ -230,8 +291,11 @@ document.getElementById("matrixForm").addEventListener("submit", async function(
             }
 
             matrix.innerHTML = "";
-            matrix.style.gridTemplateColumns = `repeat(${cols}, 80px)`;
-
+            if (window.innerWidth <= 600) {
+                matrix.style.gridTemplateColumns = `repeat(${cols}, 55px)`;
+            } else {
+                matrix.style.gridTemplateColumns = `repeat(${cols}, 80px)`;
+}
             for (let i = 0; i < rows; i++) {
                 for (let j = 0; j < cols; j++) {
                     const input = document.createElement("input");
