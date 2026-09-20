@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Подсчёт подстановок</title>
+
+<style>
+    :root {
+        --bg-color: #0f172a;
+        --card-bg: #1e293b;
+        --card-hover: #273449;
+        --text-main: #f8fafc;
+        --text-secondary: #94a3b8;
+        --accent: #38bdf8;
+        --input-bg: #0f172a;
+    }
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: var(--bg-color);
+        color: var(--text-main);
+        font-family: Arial, sans-serif;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 700px;
+        padding: 30px;
+    }
+
+    .card {
+        padding: 30px;
+        background: var(--card-bg);
+        border-radius: 12px;
+        border: 1px solid #334155;
+    }
+
+    h1 {
+        margin-top: 0;
+        text-align: center;
+    }
+
+    .input-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 8px;
+        color: var(--text-secondary);
+    }
+
+    input {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #475569;
+        border-radius: 8px;
+        background: var(--input-bg);
+        color: var(--text-main);
+        font-size: 16px;
+    }
+
+    input:focus {
+        outline: none;
+        border-color: var(--accent);
+    }
+
+    button {
+        width: 100%;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        background: var(--accent);
+        color: #0f172a;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    button:hover {
+        opacity: 0.9;
+    }
+
+    .result {
+        margin-top: 25px;
+        padding: 20px;
+        background: var(--input-bg);
+        border-radius: 8px;
+        border: 1px solid #334155;
+    }
+
+    .result h2 {
+        margin-top: 0;
+    }
+
+    #resultText {
+        white-space: pre-wrap;
+        line-height: 1.6;
+    }
+
+    .hidden {
+        display: none;
+    }
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+    <div class="card">
+        <h1>Подсчёт подстановок заданного порядка</h1>
+
+    <div class="input-group">
+        <label for="n">Количество элементов</label>
+        <input
+            id="n"
+            type="number"
+            min="0"
+            placeholder="Например: 5"
+        >
+    </div>
+
+    <div class="input-group">
+        <label for="k">Порядок подстановки</label>
+        <input
+            id="k"
+            type="number"
+            min="0"
+            placeholder="Например: 3"
+        >
+    </div>
+
+    <button onclick="calculate()">Рассчитать</button>
+
+    <div id="result" class="result hidden">
+        <h2>Результат</h2>
+        <div id="resultText"></div>
+    </div>
+</div>
+
+</div>
+
+<script>
+    async function calculate() {
+        const n = Number(document.getElementById("n").value);
+        const k = Number(document.getElementById("k").value);
+
+        if (!Number.isInteger(n) || !Number.isInteger(k)) {
+            alert("Введите целые числа");
+            return;
+        }
+
+        if (n < 0 || k < 0) {
+            alert("Числа не могут быть отрицательными");
+            return;
+        }
+
+
+        const response = await fetch("/podstanovka_count", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                n: n,
+                k: k
+            })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            alert(data.error || "Ошибка");
+            return;
+        }
+
+        document.getElementById("resultText").textContent = data.result;
+        document.getElementById("result").classList.remove("hidden");
+    }
+</script>
+
+</body>
+</html>

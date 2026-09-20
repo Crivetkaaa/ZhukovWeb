@@ -3,6 +3,8 @@ from moduls.slay import solve_slae
 from moduls.log import solve_log
 from moduls.moreChlenov import solve_polynomial_gcd
 from moduls.gcd import solve_gcd
+from moduls.pod import solve_permutation_power
+from moduls.pod_count import solve_permutation_count_by_order
 
 app = Flask(__name__)
 
@@ -26,6 +28,35 @@ def polynomial():
 def gcd():
     return render_template("gcd.html")
 
+@app.route("/podstanovka", methods=['GET'])
+def podstanovka():
+    return render_template("podstanovka.html")
+
+@app.route("/podstanovka_count", methods=['GET'])
+def podstanovka_count():
+    return render_template("pod_count.html")
+
+@app.route("/podstanovka_count", methods=['POST'])
+def podstanovka_count_post():
+    data = request.get_json()
+    n = data["n"]
+    k = data["k"]
+    result = solve_permutation_count_by_order(n, k)
+
+    return jsonify({
+        "result": result
+    })
+
+@app.route("/podstanovka", methods=['POST'])
+def podstanovka_post():
+    data = request.get_json()
+    podsta = data['permutation']
+    step = data['power']
+    result = solve_permutation_power(podsta, step)
+
+    return jsonify({
+        "result": result
+    })
 
 @app.route("/calculate", methods=["POST"])
 def gcd_post():
@@ -97,6 +128,7 @@ def slay_post():
     return jsonify({
         "result": result
     })
+
 
 if __name__ == "__main__":
     app.run(
