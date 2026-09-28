@@ -5,6 +5,7 @@ from moduls.moreChlenov import solve_polynomial_gcd
 from moduls.gcd import solve_gcd
 from moduls.pod import solve_permutation_power
 from moduls.pod_count import solve_permutation_count_by_order
+from moduls.simple_pod import found
 
 app = Flask(__name__)
 
@@ -35,6 +36,21 @@ def podstanovka():
 @app.route("/podstanovka_count", methods=['GET'])
 def podstanovka_count():
     return render_template("pod_count.html")
+
+@app.route("/podstanovka_simple", methods=['GET'])
+def podstanovka_simple():
+    return render_template("pod_simple.html")
+
+@app.route("/podstanovka_simple", methods=['POST'])
+def podstanovka_simple_post():
+    data = request.get_json()
+    podsta = data['a']
+    max_el = data['max_el']
+    result = found(podsta, max_el)
+
+    return jsonify({
+        "result": result
+    })
 
 @app.route("/podstanovka_count", methods=['POST'])
 def podstanovka_count_post():
