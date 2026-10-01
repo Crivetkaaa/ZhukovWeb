@@ -6,6 +6,7 @@ from moduls.gcd import solve_gcd
 from moduls.pod import solve_permutation_power
 from moduls.pod_count import solve_permutation_count_by_order
 from moduls.simple_pod import found
+from moduls.sp_block import solve_reverse
 
 app = Flask(__name__)
 
@@ -40,6 +41,20 @@ def podstanovka_count():
 @app.route("/podstanovka_simple", methods=['GET'])
 def podstanovka_simple():
     return render_template("pod_simple.html")
+
+@app.route("/sp_block", methods=['GET'])
+def ps_block():
+    return render_template("ps_block.html")
+
+@app.route("/sp_block", methods=['POST'])
+def sp_block_post():
+    data = request.get_json()
+    s = data['s']
+    result = solve_reverse(s)
+
+    return jsonify({
+        "result": result
+    })
 
 @app.route("/podstanovka_simple", methods=['POST'])
 def podstanovka_simple_post():
