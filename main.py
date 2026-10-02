@@ -7,6 +7,7 @@ from moduls.pod import solve_permutation_power
 from moduls.pod_count import solve_permutation_count_by_order
 from moduls.simple_pod import found
 from moduls.sp_block import solve_reverse
+from moduls.gefe import generate_fec_code
 
 app = Flask(__name__)
 
@@ -45,6 +46,24 @@ def podstanovka_simple():
 @app.route("/sp_block", methods=['GET'])
 def ps_block():
     return render_template("ps_block.html")
+
+@app.route("/gefe", methods=['GET'])
+def gefe():
+    return render_template("gefe.html")
+
+@app.route("/gefe", methods=['POST'])
+def gefe_post():
+    data = request.get_json()
+    registers = data['registers']
+    start_values = data['start_values']
+    length = data['len']
+    open_text = data['open_text']
+
+    result = generate_fec_code(registers, start_values, length, open_text)
+
+    return jsonify({
+        "result": result
+    })
 
 @app.route("/sp_block", methods=['POST'])
 def sp_block_post():
