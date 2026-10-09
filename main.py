@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, jsonify
-from moduls.slay import solve_slae 
+from moduls.slay import solve_slae
 from moduls.log import solve_log
 from moduls.moreChlenov import solve_polynomial_gcd
 from moduls.gcd import solve_gcd
@@ -8,6 +8,7 @@ from moduls.pod_count import solve_permutation_count_by_order
 from moduls.simple_pod import found
 from moduls.sp_block import solve_reverse
 from moduls.gefe import generate_fec_code
+from moduls.prim_chlen import solve_primitiv_chlen
 
 app = Flask(__name__)
 
@@ -50,6 +51,20 @@ def ps_block():
 @app.route("/gefe", methods=['GET'])
 def gefe():
     return render_template("gefe.html")
+
+@app.route("/prim_mnogochlen", methods=['GET'])
+def prim_chlen():
+    return render_template("prim_chlen.html")
+
+@app.route("/prim_mnogochlen", methods=['POST'])
+def prim_chlen_post():
+    data = request.get_json()
+    s = str(data['a'])
+    result = solve_primitiv_chlen(s)
+
+    return jsonify({
+        "result": result
+    })
 
 @app.route("/gefe", methods=['POST'])
 def gefe_post():
@@ -157,12 +172,12 @@ def polynomial_post():
         "result": result
     })
 
-@app.route("/log", methods=["POST"]) 
-def log_post(): 
-    data = request.get_json() 
-    p = int(data["p"]) 
-    y = int(data["y"]) 
-    result = solve_log(p, y) 
+@app.route("/log", methods=["POST"])
+def log_post():
+    data = request.get_json()
+    p = int(data["p"])
+    y = int(data["y"])
+    result = solve_log(p, y)
     return jsonify({ "result": result })
 
 @app.route("/slay", methods=['POST'])
