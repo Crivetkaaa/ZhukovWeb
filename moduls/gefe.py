@@ -85,10 +85,3 @@ def generate_fec_code(registers: list[str], start_registers: list[str],
     output.append(f"Шифртекст:      {format_bits(final_result)}")
 
     return "\n".join(output)
-
-
-regs = ['11001', '10011', '11111']
-s_regs = ['0100', '0111', '0110']
-len_msg = 16
-
-print(generate_fec_code(regs, s_regs, len_msg, '1011010010011101'))
