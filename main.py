@@ -12,6 +12,9 @@ from moduls.prim_chlen import solve_primitiv_chlen
 
 app = Flask(__name__)
 
+def addDrink() -> str:
+    return "\n\n Выпей пива за здоровье Хамзата"
+
 @app.route("/", methods=['GET'])
 def start():
     return render_template("index.html")
@@ -63,7 +66,7 @@ def prim_chlen_post():
     result = solve_primitiv_chlen(s)
 
     return jsonify({
-        "result": result
+        "result": result + addDrink()
     })
 
 @app.route("/gefe", methods=['POST'])
@@ -77,7 +80,7 @@ def gefe_post():
     result = generate_fec_code(registers, start_values, length, open_text)
 
     return jsonify({
-        "result": result
+        "result": result + addDrink()
     })
 
 @app.route("/sp_block", methods=['POST'])
@@ -87,7 +90,7 @@ def sp_block_post():
     result = solve_reverse(s)
 
     return jsonify({
-        "result": result
+        "result": result + addDrink()
     })
 
 @app.route("/podstanovka_simple", methods=['POST'])
@@ -98,7 +101,7 @@ def podstanovka_simple_post():
     result = found(podsta, max_el)
 
     return jsonify({
-        "result": result
+        "result": result + addDrink()
     })
 
 @app.route("/podstanovka_count", methods=['POST'])
@@ -109,7 +112,7 @@ def podstanovka_count_post():
     result = solve_permutation_count_by_order(n, k)
 
     return jsonify({
-        "result": result
+        "result": result + addDrink()
     })
 
 @app.route("/podstanovka", methods=['POST'])
@@ -120,7 +123,7 @@ def podstanovka_post():
     result = solve_permutation_power(podsta, step)
 
     return jsonify({
-        "result": result
+        "result": result + addDrink()
     })
 
 @app.route("/calculate", methods=["POST"])
@@ -142,7 +145,7 @@ def gcd_post():
     result = solve_gcd(a, b)
 
     return jsonify({
-        "result": result
+        "result": result + addDrink()
     })
 
 @app.route("/polynomial", methods=["POST"])
@@ -169,7 +172,7 @@ def polynomial_post():
     result = solve_polynomial_gcd(a, b)
 
     return jsonify({
-        "result": result
+        "result": result + addDrink()
     })
 
 @app.route("/log", methods=["POST"])
@@ -178,7 +181,7 @@ def log_post():
     p = int(data["p"])
     y = int(data["y"])
     result = solve_log(p, y)
-    return jsonify({ "result": result })
+    return jsonify({ "result": result + addDrink() })
 
 @app.route("/slay", methods=['POST'])
 def slay_post():
@@ -191,7 +194,7 @@ def slay_post():
     result = solve_slae(matrix, field)
 
     return jsonify({
-        "result": result
+        "result": result + addDrink()
     })
 
 
